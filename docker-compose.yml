@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_DATA: ${DATABSE}
+      MYSQL_USER: ${USER}
+      MYSQL_PASSWORD: ${PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${PASSWORD_ROOT}
+    ports:
+      - "3307:3306"
+    
+  chatbot_api:
+    build: 
+      context: ./chatbot_api
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000"
+
+  chatbot_frontend:
+    build: 
+      context: ./chatbot_frontend
+    env_file:
+      - .env
+    depends_on:
+      - chatbot_api
+    ports:
+      - "8501:8501"
+  
+  
