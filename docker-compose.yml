@@ -6,12 +6,12 @@ services:
     container_name: mysql-container
     restart: always
     environment:
-      MYSQL_DATA: ${DATABSE}
-      MYSQL_USER: ${USER}
-      MYSQL_PASSWORD: ${PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${PASSWORD_ROOT}
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_DATABASE: ${DATABSE}
     ports:
       - "3307:3306"
+    volumes:
+      - my-db:/var/lib/mysql
     
   chatbot_api:
     build: 
@@ -33,4 +33,5 @@ services:
     ports:
       - "8501:8501"
   
-  
+volumes:
+  my-db:
